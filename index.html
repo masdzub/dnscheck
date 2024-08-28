@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Checker</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body oncontextmenu="return false;">
+    <div id="app" class="container">
+        <h1>DNS Checker</h1>
+        <form @submit.prevent="checkDNS">
+            <input type="text" v-model="domain" placeholder="Enter domain name" @keyup.enter="checkDNS">
+            <button type="submit" :disabled="loading">{{ loading ? 'Checking...' : 'Check DNS' }}</button>
+        </form>
+        <div class="results">
+            <div v-if="results.length > 0">
+                <div v-for="(recordGroup, type) in groupedResults" :key="type" class="record-container">
+                    <h2 class="record-title">{{ type }} Records</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">Name</th>
+                                <th style="width: 20%;">TTL</th>
+                                <th style="width: 50%;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="record in recordGroup" :key="record.id">
+                                <td style="width: 30%;">{{ record.name }}</td>
+                                <td style="width: 20%;">{{ record.TTL }}</td>
+                                <td style="width: 50%;">{{ record.value }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p v-else class="text-center text-xl mt-8">{{ loading ? 'Loading...' : 'No results' }}</p>
+        </div>
+    </div>
+
+    <footer>
+        © 2024 <a href="https://masdzub.com/">Dzubayyan Ahmad</a>. Some rights reserved.
+    </footer>
+    <script src="./assets/app.js"></script>
+</body>
+</html>
