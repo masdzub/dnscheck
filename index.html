@@ -8,13 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./assets/styles.css">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body oncontextmenu="return false;">
     <div id="app" class="container">
         <h1>DNS Checker</h1>
         <form @submit.prevent="checkDNS">
             <input type="text" v-model="domain" placeholder="Enter domain name" @keyup.enter="checkDNS">
-            <button type="submit" :disabled="loading">{{ loading ? 'Checking...' : 'Check DNS' }}</button>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAAiPnysfkUMe2U-v" data-callback="javascriptCallback"></div>
+            <button type="submit" :disabled="loading || !turnstileToken">{{ loading ? 'Checking...' : 'Check DNS' }}</button>
         </form>
         <div class="results">
             <div v-if="results.length > 0">
