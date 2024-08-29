@@ -13,7 +13,10 @@
 </head>
 <body oncontextmenu="return false;">
     <div id="app" class="container">
-        <h1>DNS Checker</h1>
+        <h1><a href="/" @click.prevent="resetPage">DNS Checker</a></h1>
+        <div class="user-ip-info mb-6 p-3 border-l-4 border-blue-500 bg-blue-50">
+            <p class="text-sm text-blue-700">Your IP: <span class="font-mono">{{ userIp }}</span></p>
+        </div>
         <form @submit.prevent="checkDNS">
             <input type="text" v-model="domain" placeholder="Enter domain name" @keyup.enter="checkDNS">
             <button type="submit" :disabled="loading">{{ loading ? 'Checking...' : 'Check DNS' }}</button>
@@ -47,6 +50,7 @@
     <footer>
         © 2024 <a href="https://masdzub.com/">Dzubayyan Ahmad</a>. Some rights reserved.
     </footer>
+    
     <script src="./assets/app.js"></script>
 </body>
 </html>

@@ -3,7 +3,8 @@ new Vue({
     data: {
         domain: '',
         results: [],
-        loading: false
+        loading: false,
+        userIp: ''
     },
     computed: {
         groupedResults() {
@@ -24,8 +25,19 @@ new Vue({
             this.domain = domainParam;
             this.checkDNS();
         }
+        this.getUserIp();
     },
     methods: {
+        async getUserIp() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                this.userIp = data.ip;
+            } catch (error) {
+                console.error('Error fetching user IP:', error);
+                this.userIp = 'Unable to fetch IP';
+            }
+        },
         async checkDNS() {
             if (!this.domain) {
                 alert('Please enter a domain name');
@@ -98,6 +110,11 @@ new Vue({
         },
         removeCommas(str) {
             return str.replace(/,/g, '');
+        },
+        resetPage() {
+            this.domain = '';
+            this.results = [];
+            history.pushState(null, '', '/');
         }
     }
 });
